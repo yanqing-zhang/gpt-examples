@@ -1,0 +1,31 @@
+{
+	'id': 'chatcmpl-9Ny7BKVy9yvkXDk60y2cRrgEsPzwr', 
+	'object': 'chat.completion', 
+	'created': 1715499653, 
+	'model': 'gpt-3.5-turbo-0125', 
+	'choices': 
+		[
+			{
+			'index': 0, 
+			'message': 
+				{
+				'role': 'assistant', 
+				'content': None, 
+				'function_call': 
+					{
+					'name': 'ask_database', 
+					'arguments': '{"query":"SELECT albums.Title AS AlbumName, COUNT(tracks.TrackId) AS NumTracks FROM albums JOIN tracks ON albums.AlbumId = tracks.AlbumId GROUP BY albums.AlbumId ORDER BY NumTracks DESC LIMIT 1;"}'
+					}
+				}, 
+			'logprobs': None, 
+			'finish_reason': 'function_call'
+			}
+		], 
+	'usage': 
+		{
+		'prompt_tokens': 423, 
+		'completion_tokens': 58, 
+		'total_tokens': 481
+		}, 
+	'system_fingerprint': None
+}

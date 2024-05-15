@@ -1,0 +1,35 @@
+{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+        {
+            "role": "system",
+            "content": "Answer user questions by generating SQL queries against the Chinook Music Database."
+        },
+        {
+            "role": "user",
+            "content": "Hi, who are the top 5 artists by number of tracks?"
+        },
+        {
+            "role": "user",
+            "content": "What is the name of the album with the most tracks?"
+        }
+    ],
+    "functions": [
+        {
+            "name": "ask_database",
+            "description": "Use this function to answer user questions about music. Output should be a fully formed SQL query.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "\n                                    SQL query extracting info to answer the user's question.\n                                    SQL should be written using this database schema:\n                                    Table: albums\nColumns: AlbumId, Title, ArtistId\nTable: sqlite_sequence\nColumns: name, seq\nTable: artists\nColumns: ArtistId, Name\nTable: customers\nColumns: CustomerId, FirstName, LastName, Company, Address, City, State, Country, PostalCode, Phone, Fax, Email, SupportRepId\nTable: employees\nColumns: EmployeeId, LastName, FirstName, Title, ReportsTo, BirthDate, HireDate, Address, City, State, Country, PostalCode, Phone, Fax, Email\nTable: genres\nColumns: GenreId, Name\nTable: invoices\nColumns: InvoiceId, CustomerId, InvoiceDate, BillingAddress, BillingCity, BillingState, BillingCountry, BillingPostalCode, Total\nTable: invoice_items\nColumns: InvoiceLineId, InvoiceId, TrackId, UnitPrice, Quantity\nTable: media_types\nColumns: MediaTypeId, Name\nTable: playlists\nColumns: PlaylistId, Name\nTable: playlist_track\nColumns: PlaylistId, TrackId\nTable: tracks\nColumns: TrackId, Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice\nTable: sqlite_stat1\nColumns: tbl, idx, stat\n                                    The query should be returned in plain text, not in JSON.\n                                    "
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    ]
+}
