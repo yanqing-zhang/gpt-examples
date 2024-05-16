@@ -3,15 +3,21 @@ from enum import Enum, auto
 from PIL import Image as PILImage
 from utils.logger import LOG
 
-
 class ContentType(Enum):
     TEXT = auto()
     TABLE = auto()
     IMAGE = auto()
 
-
 class Content:
     def __init__(self, content_type, original, translation=None):
+        """
+        初始化
+        :param content_type: 内容类型:见上面枚举已定义了:TEXT、TABLE、IMAGE
+        :param original:从pdf中提取的，去除了回车符、空格后的干净的原始内容，有可能是文本，
+                            有可能是表格，也有可能是图像
+        :param translation:干净的原始内容经过大模型翻译后返回的翻译内容，假设英译中，
+                            原始内容为英文，那大模型处理后，translation的值为对应的中文
+        """
         self.content_type = content_type
         self.original = original
         self.translation = translation
@@ -24,6 +30,11 @@ class Content:
         self.status = status
 
     def check_translation_type(self, translation):
+        """
+        isinstance(translation, str):检查translation参数是否属于str类型，是返回true否返回false
+        :param translation:
+        :return:
+        """
         if self.content_type == ContentType.TEXT and isinstance(translation, str):
             return True
         elif self.content_type == ContentType.TABLE and isinstance(translation, list):
@@ -31,7 +42,6 @@ class Content:
         elif self.content_type == ContentType.IMAGE and isinstance(translation, PILImage.Image):
             return True
         return False
-
 
 class TableContent(Content):
     def __init__(self, data, translation=None):
@@ -48,7 +58,6 @@ class TableContent(Content):
         try:
             if not isinstance(translation, str):
                 raise ValueError(f"Invalid translation type. Expected str, but got {type(translation)}")
-
             LOG.debug(translation)
             # Convert the string to a list of lists
             table_data = [row.strip().split() for row in translation.strip().split('\n')]
