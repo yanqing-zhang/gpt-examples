@@ -1,0 +1,4 @@
+database:
+  db_host: localhost
+  db_port: 3306
+  db_name: orders_sampledb
