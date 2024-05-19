@@ -18,6 +18,8 @@ class Orders(db.Model):
     def __repr__(self):
         return f"{{\'order_id\':{self.order_id}, \'order_total_amount\':{self.order_total_amount}, \'order_status\':{self.order_status}, \'create_at\':{self.create_at}, \'update_at\':{self.update_at}, \'yn\':{self.yn}}}"
 
+    def __len__(self):
+        return len(self.order_id)
     def to_dict(self):
         return self.__dict__
 
