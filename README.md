@@ -11,3 +11,7 @@ openai_translator是一个使用openai大模型实现多语言pdf翻译的工具
 ## 3、gpt-master
 
 gpt-master主要是针对openai大模型做一些练习，如embedding、functions、function_call等技能的练习。
+
+## 4、gradio-master
+
+gradio-master是要把常用的gradio组件形成案例，从而达到完全掌握,利用gradio制作机器学习、深度学习、大模型演示实例代码量小，编写相对简单，能快速开发出展示汇报UI。
