@@ -10,6 +10,10 @@ class ContentType(Enum):
     IMAGE = auto()
 
 class Content:
+    """
+    Content对象就是一页pdf中的具体内容了，
+    某个页面中可能包含文本内容，可能包含表格内容，也可能包含图像内容
+    """
     def __init__(self, content_type, original, translation=None):
         """
         :param content_type: 待翻译的pdf内容类型:TEXT、TABLE、IMAGE
