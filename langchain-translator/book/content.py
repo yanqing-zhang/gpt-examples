@@ -2,7 +2,6 @@ import pandas as pd
 from enum import Enum, auto
 from PIL import Image as PILImage
 from utils import LOG
-from io import StringIO
 
 class ContentType(Enum):
     TEXT = auto()
