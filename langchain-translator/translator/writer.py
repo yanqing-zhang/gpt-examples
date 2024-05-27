@@ -68,4 +68,23 @@ class Writer:
         return output_ifle_path
 
     def _save_translated_book_markdown(self, book: Book):
-        pass
+        output_file_path = book.pdf_file_path.replace(".pdf", f"_translated.md")
+        LOG.info(f"开始导出:{output_file_path}")
+        with open(output_file_path, "w", encoding="utf-8") as output_file:
+            for page in book.pages:
+                for content in page.contents:
+                    if content.status:
+                        if content.content_type == ContentType.TEXT:
+                            text = content.translation
+                            output_file.write(text + "\n\n")
+                        elif content.content_type == ContentType.TABLE:
+                            table = content.translation
+                            header = "| " + " | ".join(str(column) for column in table.columns) + " |" + "\n"
+                            separator = '| ' + ' | '.join(['---'] * len(table.columns)) + ' |' + '\n'
+                            # body = '\n'.join(['| ' + ' | '.join(row) + ' |' for row in table.values.tolist()]) + '\n\n'
+                            body = '\n'.join(['| ' + ' | '.join(str(cell) for cell in row) + ' |' for row in
+                                              table.values.tolist()]) + '\n\n'
+                            output_file.write(header + separator + body)
+                if page != book.pages[-1]:
+                    output_file.write("---\n\n")
+        return output_file_path
