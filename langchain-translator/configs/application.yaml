@@ -1,0 +1,14 @@
+data:
+  train_and_test_data_file_name: babaiban-v2.1.xlsx
+  simulate_product_data_file_name: babaiban-v3.0.xlsx
+  data_folder_name: datas
+  excel_sheet_name: babaiban
+model:
+  xgboost_model_file_name: xgboost_model.joblib
+  adaboost_model_file_name: adaboost_model.joblib
+  catboost_model_file_name: catboost_model.joblib
+  gbdt_model_file_name: gbdt_model.joblib
+  lightgbm_model_file_name: lightgbm_model.joblib
+  onehot_encoder_file_name: oneHotEncoder.joblib
+  standard_scaler_file_name: standardScaler.joblib
+  is_save_model: false
