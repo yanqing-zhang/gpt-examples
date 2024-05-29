@@ -1,5 +1,6 @@
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 from langchain_community.llms import OpenAI
+from langchain_community.chat_models import ChatOpenAI
 import os
 
 class Prompts:
@@ -75,6 +76,25 @@ class Prompts:
         ret_java = llm(prompt_java)
         print(f"java-ret:\n{ret_java}")
 
+    def chat_prompt(self):
+        template = ChatPromptTemplate.from_messages([
+            ("system", "You are a helpful AI bot. Your name is {name}."),
+            ("human", "Hello, how are you doing?"),
+            ("ai", "I'm doing well, thanks!"),
+            ("human", "{user_input}"),
+        ])
+        message = template.format_messages(
+            name = "Bob",
+            user_input = "What is your name?"
+        )
+        print(f"message[0]:\n{message[0].content}")
+        print(f"message[-1]:\n{message[-1].content}")
+        chat_model = ChatOpenAI(model_name="gpt-3.5-turbo", max_tokens=1000)
+        ret = chat_model(message)
+        print(f"ret:\n{ret}")
+        print("===============================")
+        print(f"ret.content:\n{ret.content}")
+
 if __name__ == '__main__':
     os.environ["http_proxy"] = "http://127.0.0.1:10794"
     os.environ["https_proxy"] = "http://127.0.0.1:10794"
@@ -86,5 +106,6 @@ if __name__ == '__main__':
         print("################################")
         p.openai_prompts()
         p.jinja2_prompt()
-    else:
         p.sort_prompt()
+    else:
+        p.chat_prompt()
