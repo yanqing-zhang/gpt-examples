@@ -64,6 +64,17 @@ class Prompts:
         print(f"prompt:\n{prompt}")
         print(f"p:\n{p}")
 
+    def sort_prompt(self):
+        prompt_template = PromptTemplate.from_template("生成可执行的快速排序{programming_language}代码")
+        prompt_python = prompt_template.format(programming_language="python")
+        llm = OpenAI(model_name="gpt-3.5-turbo-instruct", api_key=os.getenv("OPENAI_API_KEY"), temperature=0)
+        ret_py = llm(prompt_python)
+        print(f"python-ret:\n{ret_py}")
+        print("-------------------------------")
+        prompt_java = prompt_template.format(programming_language="java")
+        ret_java = llm(prompt_java)
+        print(f"java-ret:\n{ret_java}")
+
 if __name__ == '__main__':
     os.environ["http_proxy"] = "http://127.0.0.1:10794"
     os.environ["https_proxy"] = "http://127.0.0.1:10794"
@@ -74,5 +85,6 @@ if __name__ == '__main__':
         p.construct_prompts()
         print("################################")
         p.openai_prompts()
-    else:
         p.jinja2_prompt()
+    else:
+        p.sort_prompt()
