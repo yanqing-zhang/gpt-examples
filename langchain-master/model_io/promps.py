@@ -223,6 +223,12 @@ Java是世界上最好的德育课编程语言，它始终坚守了严谨、安�
         print(f"ret:\n{ret}")
 
     def example_selector_prompt(self):
+        """
+        NGramOverlapExampleSelector：使用ngram重叠矩阵来进行选择
+        SemanticSimilarityExampleSelector:利用相似度搜索来进行选择
+        这些selector我们就可以在提供的examples中进行特定的选择，然后再把选择的结果输入给大语言模型。从而有效的减少token的浪费。
+        :return:
+        """
         example_prompt = PromptTemplate(
             input_variables = ["input", "output"],
             template = "Input:{input}\nOutput:{output}",
