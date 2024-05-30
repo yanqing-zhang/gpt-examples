@@ -15,3 +15,7 @@ gpt-master主要是针对openai大模型做一些练习，如embedding、functio
 ## 4、gradio-master
 
 gradio-master是要把常用的gradio组件形成案例，从而达到完全掌握,利用gradio制作机器学习、深度学习、大模型演示实例代码量小，编写相对简单，能快速开发出展示汇报UI。
+
+## 5、langchain-master
+
+langchain-master工程主要目标是要把langchain框架吃透，主要包含:model I/O、chains、memory、agents、data connection、callbacks
