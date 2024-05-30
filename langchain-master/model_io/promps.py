@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate, FewShotPromptTemplate
+from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.llms import OpenAI
 from langchain_community.chat_models import ChatOpenAI
 import os
 
+"""
+pip install chromadb -i https://pypi.tuna.tsinghua.edu.cn/simple
+"""
 class Prompts:
     """
     把prompt当函数一样构造，当函数一样使用
@@ -215,6 +221,40 @@ Java是世界上最好的德育课编程语言，它始终坚守了严谨、安�
         print("================================")
         ret = few_shot_prompt.format(input="玛丽·波尔·华盛顿的父亲是谁?")
         print(f"ret:\n{ret}")
+
+    def example_selector_prompt(self):
+        example_prompt = PromptTemplate(
+            input_variables = ["input", "output"],
+            template = "Input:{input}\nOutput:{output}",
+        )
+        examples = [
+            {"input": "happy", "output": "sad"},
+            {"input": "tall", "output": "short"},
+            {"input": "energetic", "output": "lethargic"},
+            {"input": "sunny", "output": "gloomy"},
+            {"input": "windy", "output": "calm"},
+        ]
+        example_selector = SemanticSimilarityExampleSelector.from_examples(
+            examples,
+            OpenAIEmbeddings(),
+            Chroma,
+            k=1
+        )
+        similar_prompt = FewShotPromptTemplate(
+            example_selector=example_selector,
+            example_prompt=example_prompt,
+            prefix="Give the antonym of every input",
+            suffix="Input: {adjective}\nOutput:",
+            input_variables=["adjective"],
+        )
+        f1 = similar_prompt.format(adjective="worried")
+        print(f"f:\n{f1}")
+        print("------------------")
+        f2 = similar_prompt.format(adjective="long")
+        print(f"f:\n{f2}")
+        print("------------------")
+        f3 = similar_prompt.format(adjective="rain")
+        print(f"f:\n{f3}")
 if __name__ == '__main__':
     os.environ["http_proxy"] = "http://127.0.0.1:10794"
     os.environ["https_proxy"] = "http://127.0.0.1:10794"
@@ -229,5 +269,6 @@ if __name__ == '__main__':
         p.sort_prompt()
         p.chat_prompt()
         p.summary_prompt()
-    else:
         p.fewshot_prompts()
+    else:
+        p.example_selector_prompt()
