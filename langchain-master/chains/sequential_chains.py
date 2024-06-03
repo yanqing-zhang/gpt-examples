@@ -81,8 +81,6 @@ class SequentialChians:
         print(f"synopsis:\n{ret['synopsis']}")
         print(f"review:\n{ret['review']}")
 
-
-
 if __name__ == '__main__':
     os.environ["http_proxy"] = "http://127.0.0.1:10794"
     os.environ["https_proxy"] = "http://127.0.0.1:10794"
