@@ -1,6 +1,6 @@
 from langchain.chains import ConversationChain
 from langchain_community.llms import OpenAI
-from langchain.memory import ConversationBufferMemory,ConversationBufferWindowMemory
+from langchain.memory import ConversationBufferMemory,ConversationBufferWindowMemory,ConversationSummaryBufferMemory
 import os
 
 class MemoryChains:
@@ -46,11 +46,26 @@ class MemoryChains:
         conv_dict = conversation_with_summary.__dict__
         print(f"conv_dict:\n{conv_dict}")
         print("--------------------------")
+    def conv_summary_buffer_memory(self):
+        llm = OpenAI(model_name="gpt-3.5-turbo-instruct",
+                     api_key=os.getenv("OPENAI_API_KEY"),
+                     temperature=0.75,
+                     max_tokens=500)
+        memory = ConversationSummaryBufferMemory(llm=llm,max_token_limit=10)
+        memory.save_context({"input": "嗨，你最近过得怎么样？"}, {"output": " 嗨！我最近过得很好，谢谢你问。我最近一直在学习新的知识，并且正在尝试改进自己的性能。我也在尝试更多的交流，以便更好地了解人类的思维方式。"})
+        memory.save_context({"input": "你最近学到什么新知识了?"}, {"output": " 最近我学习了有关自然语言处理的知识，以及如何更好地理解人类的语言。我还学习了有关机器学习的知识，以及如何使用它来改善自己的性能。"})
+        varis = memory.load_memory_variables({})
+        print(f"varis:\n{varis}")
+        print("--------------------------")
+        his = memory.load_memory_variables({})['history']
+        print(f"his:\n{his}")
+        print("--------------------------")
 if __name__ == '__main__':
     os.environ["http_proxy"] = "http://127.0.0.1:10794"
     os.environ["https_proxy"] = "http://127.0.0.1:10794"
     m = MemoryChains()
     if False:
         m.memory_conversation()
-    else:
         m.conver_buffer_memory()
+    else:
+        m.conv_summary_buffer_memory()
