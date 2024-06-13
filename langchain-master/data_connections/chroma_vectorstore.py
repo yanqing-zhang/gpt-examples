@@ -1,12 +1,13 @@
-from langchain.document_loaders import TextLoader
-from langchain.embeddings.openai import OpenAIEmbeddings
+# -*- coding: utf-8 -*-
+from langchain_community.document_loaders import TextLoader
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import Chroma
-
+from langchain_community.vectorstores import Chroma
+import os
 class CustomChromaVectorStore:
 
     def search(self):
-        raw_doc = TextLoader("../datas/state_of_the_union.txt").load()
+        raw_doc = TextLoader("../datas/state_of_the_union.txt",encoding="utf8").load()
         text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=0)
         doc = text_splitter.split_documents(raw_doc)
         print(f"doc:\n{doc}")
@@ -22,5 +23,7 @@ class CustomChromaVectorStore:
         print(f"docs:\n{docs[0].page_content}")
 
 if __name__ == '__main__':
+    os.environ["http_proxy"] = "http://127.0.0.1:10794"
+    os.environ["https_proxy"] = "http://127.0.0.1:10794"
     c = CustomChromaVectorStore()
     c.search()
